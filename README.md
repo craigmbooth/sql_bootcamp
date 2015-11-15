@@ -13,7 +13,7 @@ Data sources:
 
 ## Running the script
 
-The following two commands should be enough
+It may be totally unnecessary to run this script as the output is `load_data.sql`, which is checked in to the repo.  If you want to modify the script, the following two commands should be enough to regenerate `load_data.sql`
 
     pip install -r requirements.txt
     python sql_bootcamp_data_construct.py
