@@ -12,7 +12,7 @@ TEMPLATE_ENVIRONMENT = Environment(
 
 def render_template(template_filename, context):
     """
-    XXXXXX
+    Given a filename to write to and a conect, render out the Jinja template
 
     :return: The Jinja2 environment
     :rtype: :py:class:`jinja2.Environment`
@@ -21,6 +21,12 @@ def render_template(template_filename, context):
 
 
 def get_states():
+    """Read a number of CSVs and combine them into a single pandas dataframe
+    where each row represents a single state
+
+    :return: Information on states
+    :rtype: :py:class:`pandas.DataFrame`
+    """
     states = pandas.read_csv("data/state.csv")
     populations = pandas.read_csv("data/StatePopulations.csv")
     populations.drop('number', axis=1, inplace=True)
@@ -46,6 +52,12 @@ def get_states():
 
 
 def get_presidents():
+    """Read a number of CSVs and combine them into a single pandas dataframe
+    where each row represents a single president
+
+    :return: Information on presidents
+    :rtype: :py:class:`pandas.DataFrame`
+    """
     presidents = pandas.read_csv("data/PresidentsWikipedia.csv")
     birth_death = pandas.read_csv("data/PresidentBirthDeath.csv")
     states = pandas.read_csv("data/state.csv")
@@ -63,6 +75,15 @@ def get_presidents():
 
 
 def get_books(presidents):
+    """Read a number of CSVs and combine them into a single pandas dataframe
+    where each row represents a single presidential autobiography
+
+    :param presidents: A frame containing information on presidents
+    :type presidents: :py:class: `pandas.DataFrame`
+
+    :return: Information on presidential autobiographies
+    :rtype: :py:class:`pandas.DataFrame`
+    """
     books = pandas.read_csv("data/books.csv")
     books = books.merge(presidents, on=["first_name", "last_name"])
     books.drop(["first_name", "last_name", "birth", "birth_place",
@@ -74,20 +95,52 @@ def get_books(presidents):
     return books
 
 def to_sql_string(inp):
+    """Given an input, if it is null then return the string NULL, else format
+    a string containing a date that MySQL can understand and return that
+
+    :param inp: The input to format
+    :type inp: `str` or `NoneType`
+
+    :returns: The string NULL or a datetime
+    :rtype: `str`
+    """
     #n.b. cannot use strptime because it only works for years > 1900
     if pandas.isnull(inp):
         return "NULL"
     return '"{}"'.format(dateutil.parser.parse(inp).isoformat(" ").split()[0])
 
 def string_or_none(inp):
+    """Given an input, if it is null then return the string NULL, else return
+    a string wrapped in quotes
 
+
+    :param inp: The input to format
+    :type inp: `str` or `NoneType`
+
+    :returns: The string NULL or a string wrapped in quotes
+    :rtype: `str`
+    """
     if pandas.isnull(inp):
         return "NULL"
     else:
         return '"{}"'.format(inp)
 
 def dump_sql(states, presidents, books):
+    """Given the dataframes that represent states, presidents and books,
+    return a list of strings containing the SQL statements needed to add
+    them to some SQL code
 
+    :param states: A frame describing states
+    :type states: :py:class:`pandas.DataFrame`
+    :param presidents: A frame describing presidents
+    :type presidents: :py:class:`pandas.DataFrame`
+    :param books: A frame describing books
+    :type books: :py:class:`pandas.DataFrame`
+
+    :returns: The SQL statements needed to insert each row of the frames
+        into a SQL database
+    :rtype: A `tuple` of three `lists`s of `str`
+    """
     president_rows = []
     state_rows = []
     book_rows = []
@@ -129,7 +182,8 @@ def dump_sql(states, presidents, books):
 
     return president_rows, state_rows, book_rows
 
-if __name__ == "__main__":
+
+def main():
     states = get_states()
     presidents = get_presidents()
     books = get_books(presidents)
@@ -142,3 +196,6 @@ if __name__ == "__main__":
     sql = render_template('load_data.sql', context)
     with open("load_data.sql", "w") as f:
         f.write(sql)
+
+if __name__ == "__main__":
+    main()
