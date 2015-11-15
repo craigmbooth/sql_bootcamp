@@ -1,18 +1,21 @@
+"""This code reads a few CSVs from `data/`, normalizes them, and writes out a
+SQL file that imports them into a MySQL database
+"""
 import os
-import pandas
+
 import dateutil
-from jinja2 import Environment, FileSystemLoader
+import jinja2
+import pandas
 
 PATH = os.path.dirname(os.path.abspath(__file__))
-TEMPLATE_ENVIRONMENT = Environment(
-        autoescape=False,
-    loader=FileSystemLoader(os.path.join(PATH, 'templates')),
+TEMPLATE_ENVIRONMENT = jinja2.Environment(
+    autoescape=False,
+    loader=jinja2.FileSystemLoader(os.path.join(PATH, 'templates')),
     trim_blocks=False)
 
 
 def render_template(template_filename, context):
-    """
-    Given a filename to write to and a conect, render out the Jinja template
+    """Given a filename to write to and a conect, render out the Jinja template
 
     :return: The Jinja2 environment
     :rtype: :py:class:`jinja2.Environment`
@@ -46,7 +49,7 @@ def get_states():
 
     # Changes strings with commas in numbers into actual numbers
     for col in ["population", "sq_mile_water", "sq_mile_land"]:
-        states[col] = states[col].apply(lambda x: int(x.replace(",","")))
+        states[col] = states[col].apply(lambda x: int(x.replace(",", "")))
 
     return states
 
@@ -148,17 +151,18 @@ def dump_sql(states, presidents, books):
     for _, row in presidents.iterrows():
         president_rows.append(
             '({}, "{}", "{}", {}, {}, "{}", "{}", {}, {}, {})'.format(
-            row["id"],
-            row["first_name"],
-            row["last_name"],
-            to_sql_string(row["took_office"]),
-            to_sql_string(row["left_office"]),
-            row["party"],
-            row["home_state"],
-            to_sql_string(row["birth"]),
-            to_sql_string(row["death"]),
-            string_or_none(row["death_place"])
-        ))
+                row["id"],
+                row["first_name"],
+                row["last_name"],
+                to_sql_string(row["took_office"]),
+                to_sql_string(row["left_office"]),
+                row["party"],
+                row["home_state"],
+                to_sql_string(row["birth"]),
+                to_sql_string(row["death"]),
+                string_or_none(row["death_place"])
+            )
+        )
 
     for _, row in states.iterrows():
         state_rows.append(
@@ -168,7 +172,8 @@ def dump_sql(states, presidents, books):
                 row["population"],
                 row["sq_mile_water"],
                 row["sq_mile_land"]
-        ))
+            )
+        )
 
     for _, row in books.iterrows():
         book_rows.append(
@@ -178,12 +183,15 @@ def dump_sql(states, presidents, books):
                 row["year"],
                 string_or_none(row["isbn"]),
                 row["author_id"]
-        ))
+            )
+        )
 
     return president_rows, state_rows, book_rows
 
 
 def main():
+    """Executed if you run the script from the command line"""
+
     states = get_states()
     presidents = get_presidents()
     books = get_books(presidents)
@@ -194,8 +202,8 @@ def main():
                "books": book_rows}
 
     sql = render_template('load_data.sql', context)
-    with open("load_data.sql", "w") as f:
-        f.write(sql)
+    with open("load_data.sql", "w") as file_handle:
+        file_handle.write(sql)
 
 if __name__ == "__main__":
     main()
