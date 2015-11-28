@@ -70,3 +70,49 @@ VALUES
    {% for book in books -%}
       {{ book }}{% if loop.last -%};{% else %},{% endif %}
    {% endfor %}
+
+------------------------------------------------------
+-- Example table for aggregate function demonstrations
+------------------------------------------------------
+
+DROP TABLE IF EXISTS shows;
+
+CREATE TABLE shows (
+  title VARCHAR(255),
+  genre VARCHAR(255),
+  audience INT
+);
+
+INSERT INTO shows VALUES
+  ("The Flash", "Sci-Fi", 5371295),
+  ("Breaking Bad", "Drama", 12955710),
+  ("Seinfeld", "Comedy", 2100199),
+  ("Friends", "Comedy", 1393983),
+  ("Frasier", NULL, 2000412);
+
+------------------------------------------------------
+-- Example tables for join demonstrations
+------------------------------------------------------
+
+DROP TABLE IF EXISTS join1;
+DROP TABLE IF EXISTS join2;
+
+CREATE TABLE join1 (
+  id     INT,
+  value  CHAR(1)
+);
+
+INSERT INTO join1 VALUES
+   (1, 'a'),
+   (2, 'b'),
+   (3, 'c');
+
+CREATE TABLE join2 (
+  id INT,
+  value CHAR(1)
+);
+
+INSERT INTO join2 VALUES
+  (2, 'x'),
+  (3, 'y'),
+  (4, 'z');
