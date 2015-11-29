@@ -19,6 +19,7 @@ CREATE TABLE states (
    population INT NOT NULL,
    sq_mile_water INT NOT NULL,
    sq_mile_land INT NOT NULL,
+   region VARCHAR(50) NOT NULL,
    PRIMARY KEY(abbreviation)
 );
 
@@ -51,58 +52,58 @@ CREATE TABLE books (
 );
 
 INSERT INTO states
-   (abbreviation, full_name, population, sq_mile_water, sq_mile_land)
+   (abbreviation, full_name, population, sq_mile_water, sq_mile_land, region)
 VALUES
-   ("AL", "Alabama", 4833722, 1675, 50744),
-   ("AK", "Alaska", 735132, 91316, 567400),
-   ("AZ", "Arizona", 6626624, 364, 113635),
-   ("AR", "Arkansas", 2959373, 1110, 52068),
-   ("CA", "California", 38332521, 7736, 155959),
-   ("CO", "Colorado", 5268367, 376, 103718),
-   ("CT", "Connecticut", 3596080, 699, 4845),
-   ("DE", "Delaware", 925749, 536, 1954),
-   ("FL", "Florida", 19552860, 11828, 53927),
-   ("GA", "Georgia", 9992167, 1519, 57906),
-   ("HI", "Hawaii", 1404054, 4508, 6423),
-   ("ID", "Idaho", 1612136, 823, 82747),
-   ("IL", "Illinois", 12882135, 2331, 55584),
-   ("IN", "Indiana", 6570902, 551, 35867),
-   ("IA", "Iowa", 3090416, 402, 55869),
-   ("KS", "Kansas", 2893957, 462, 81815),
-   ("KY", "Kentucky", 4395295, 681, 39728),
-   ("LA", "Louisiana", 4625470, 8278, 43562),
-   ("ME", "Maine", 1328302, 4523, 30862),
-   ("MD", "Maryland", 5928814, 2633, 9774),
-   ("MA", "Massachusetts", 6692824, 2715, 7840),
-   ("MI", "Michigan", 9895622, 39881, 58110),
-   ("MN", "Minnesota", 5420380, 7329, 79610),
-   ("MS", "Mississippi", 2991207, 1523, 46907),
-   ("MO", "Missouri", 6044171, 818, 68886),
-   ("MT", "Montana", 1015165, 1490, 145552),
-   ("NE", "Nebraska", 1868516, 481, 76872),
-   ("NV", "Nevada", 2790136, 735, 109826),
-   ("NH", "New Hampshire", 1323459, 382, 8968),
-   ("NJ", "New Jersey", 8899339, 1304, 7417),
-   ("NM", "New Mexico", 2085287, 234, 121356),
-   ("NY", "New York", 19651127, 7342, 47214),
-   ("NC", "North Carolina", 9848060, 5108, 48711),
-   ("ND", "North Dakota", 723393, 1724, 68976),
-   ("OH", "Ohio", 11570808, 3877, 40948),
-   ("OK", "Oklahoma", 3850568, 1231, 68667),
-   ("OR", "Oregon", 3930065, 2384, 95997),
-   ("PA", "Pennsylvania", 12773801, 1239, 44817),
-   ("RI", "Rhode Island", 1051511, 500, 1045),
-   ("SC", "South Carolina", 4774839, 1911, 30109),
-   ("SD", "South Dakota", 844877, 1232, 75885),
-   ("TN", "Tennessee", 6495978, 926, 41217),
-   ("TX", "Texas", 26448193, 6784, 261797),
-   ("UT", "Utah", 2900872, 2755, 82144),
-   ("VT", "Vermont", 626630, 365, 9250),
-   ("VA", "Virginia", 8260405, 3180, 39594),
-   ("WA", "Washington", 6971406, 4756, 66544),
-   ("WV", "West Virginia", 1854304, 152, 24230),
-   ("WI", "Wisconsin", 5742713, 11188, 54310),
-   ("WY", "Wyoming", 582658, 713, 97105);
+   ("AL", "Alabama", 4833722, 1675, 50744, "South"),
+   ("AK", "Alaska", 735132, 91316, 567400, "West"),
+   ("AZ", "Arizona", 6626624, 364, 113635, "Southwest"),
+   ("AR", "Arkansas", 2959373, 1110, 52068, "South"),
+   ("CA", "California", 38332521, 7736, 155959, "West"),
+   ("CO", "Colorado", 5268367, 376, 103718, "West"),
+   ("CT", "Connecticut", 3596080, 699, 4845, "New England"),
+   ("DE", "Delaware", 925749, 536, 1954, "Middle Atlantic"),
+   ("FL", "Florida", 19552860, 11828, 53927, "South"),
+   ("GA", "Georgia", 9992167, 1519, 57906, "South"),
+   ("HI", "Hawaii", 1404054, 4508, 6423, "West"),
+   ("ID", "Idaho", 1612136, 823, 82747, "West"),
+   ("IL", "Illinois", 12882135, 2331, 55584, "Midwest"),
+   ("IN", "Indiana", 6570902, 551, 35867, "Midwest"),
+   ("IA", "Iowa", 3090416, 402, 55869, "Midwest"),
+   ("KS", "Kansas", 2893957, 462, 81815, "Midwest"),
+   ("KY", "Kentucky", 4395295, 681, 39728, "South"),
+   ("LA", "Louisiana", 4625470, 8278, 43562, "South"),
+   ("ME", "Maine", 1328302, 4523, 30862, "New England"),
+   ("MD", "Maryland", 5928814, 2633, 9774, "Middle Atlantic"),
+   ("MA", "Massachusetts", 6692824, 2715, 7840, "New England"),
+   ("MI", "Michigan", 9895622, 39881, 58110, "Midwest"),
+   ("MN", "Minnesota", 5420380, 7329, 79610, "Midwest"),
+   ("MS", "Mississippi", 2991207, 1523, 46907, "South"),
+   ("MO", "Missouri", 6044171, 818, 68886, "South"),
+   ("MT", "Montana", 1015165, 1490, 145552, "West"),
+   ("NE", "Nebraska", 1868516, 481, 76872, "Midwest"),
+   ("NV", "Nevada", 2790136, 735, 109826, "West"),
+   ("NH", "New Hampshire", 1323459, 382, 8968, "New England"),
+   ("NJ", "New Jersey", 8899339, 1304, 7417, "Middle Atlantic"),
+   ("NM", "New Mexico", 2085287, 234, 121356, "Southwest"),
+   ("NY", "New York", 19651127, 7342, 47214, "Middle Atlantic"),
+   ("NC", "North Carolina", 9848060, 5108, 48711, "South"),
+   ("ND", "North Dakota", 723393, 1724, 68976, "Midwest"),
+   ("OH", "Ohio", 11570808, 3877, 40948, "Midwest"),
+   ("OK", "Oklahoma", 3850568, 1231, 68667, "Southwest"),
+   ("OR", "Oregon", 3930065, 2384, 95997, "West"),
+   ("PA", "Pennsylvania", 12773801, 1239, 44817, "Middle Atlantic"),
+   ("RI", "Rhode Island", 1051511, 500, 1045, "New England"),
+   ("SC", "South Carolina", 4774839, 1911, 30109, "South"),
+   ("SD", "South Dakota", 844877, 1232, 75885, "Midwest"),
+   ("TN", "Tennessee", 6495978, 926, 41217, "South"),
+   ("TX", "Texas", 26448193, 6784, 261797, "Southwest"),
+   ("UT", "Utah", 2900872, 2755, 82144, "West"),
+   ("VT", "Vermont", 626630, 365, 9250, "New England"),
+   ("VA", "Virginia", 8260405, 3180, 39594, "South"),
+   ("WA", "Washington", 6971406, 4756, 66544, "West"),
+   ("WV", "West Virginia", 1854304, 152, 24230, "South"),
+   ("WI", "Wisconsin", 5742713, 11188, 54310, "Midwest"),
+   ("WY", "Wyoming", 582658, 713, 97105, "West");
    
 
 INSERT INTO presidents
@@ -188,3 +189,49 @@ VALUES
    ("Dreams from My Father", "Times Books", 1995, "1-4000-8277-3", 30),
    ("Audacity of Hope", "Crown/Three Rivers Press", 2006, "0-307-23769-9", 30);
    
+
+------------------------------------------------------
+-- Example table for aggregate function demonstrations
+------------------------------------------------------
+
+DROP TABLE IF EXISTS shows;
+
+CREATE TABLE shows (
+  title VARCHAR(255),
+  genre VARCHAR(255),
+  audience INT
+);
+
+INSERT INTO shows VALUES
+  ("The Flash", "Sci-Fi", 5371295),
+  ("Breaking Bad", "Drama", 12955710),
+  ("Seinfeld", "Comedy", 2100199),
+  ("Friends", "Comedy", 1393983),
+  ("Frasier", NULL, 2000412);
+
+------------------------------------------------------
+-- Example tables for join demonstrations
+------------------------------------------------------
+
+DROP TABLE IF EXISTS join1;
+DROP TABLE IF EXISTS join2;
+
+CREATE TABLE join1 (
+  id     INT,
+  value  CHAR(1)
+);
+
+INSERT INTO join1 VALUES
+   (1, 'a'),
+   (2, 'b'),
+   (3, 'c');
+
+CREATE TABLE join2 (
+  id INT,
+  value CHAR(1)
+);
+
+INSERT INTO join2 VALUES
+  (2, 'x'),
+  (3, 'y'),
+  (4, 'z');

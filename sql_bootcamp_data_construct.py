@@ -30,7 +30,8 @@ def get_states():
     :return: Information on states
     :rtype: :py:class:`pandas.DataFrame`
     """
-    states = pandas.read_csv("data/state.csv")
+    states = pandas.read_csv("data/StateDemographics.csv")
+    regions = pandas.read_csv("data/StateRegions.csv")
     populations = pandas.read_csv("data/StatePopulations.csv")
     populations.drop('number', axis=1, inplace=True)
 
@@ -46,6 +47,7 @@ def get_states():
     states = states.merge(populations, on="state")
     states = states.merge(water_area, on="state")
     states = states.merge(land_area, on="state")
+    states = states.merge(regions, on="state", how="inner")
 
     # Changes strings with commas in numbers into actual numbers
     for col in ["population", "sq_mile_water", "sq_mile_land"]:
@@ -63,7 +65,7 @@ def get_presidents():
     """
     presidents = pandas.read_csv("data/PresidentsWikipedia.csv")
     birth_death = pandas.read_csv("data/PresidentBirthDeath.csv")
-    states = pandas.read_csv("data/state.csv")
+    states = pandas.read_csv("data/StateDemographics.csv")
 
     presidents = presidents.merge(states, left_on="home_state", right_on="state")
     presidents.drop(["wikipedia", "home_state", "state", "number"],
@@ -166,12 +168,13 @@ def dump_sql(states, presidents, books):
 
     for _, row in states.iterrows():
         state_rows.append(
-            '("{}", "{}", {}, {}, {})'.format(
+            '("{}", "{}", {}, {}, {}, "{}")'.format(
                 row["abbreviation"],
                 row["state"],
                 row["population"],
                 row["sq_mile_water"],
-                row["sq_mile_land"]
+                row["sq_mile_land"],
+                row["region"]
             )
         )
 

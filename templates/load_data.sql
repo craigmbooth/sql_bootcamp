@@ -19,6 +19,7 @@ CREATE TABLE states (
    population INT NOT NULL,
    sq_mile_water INT NOT NULL,
    sq_mile_land INT NOT NULL,
+   region VARCHAR(50) NOT NULL,
    PRIMARY KEY(abbreviation)
 );
 
@@ -51,7 +52,7 @@ CREATE TABLE books (
 );
 
 INSERT INTO states
-   (abbreviation, full_name, population, sq_mile_water, sq_mile_land)
+   (abbreviation, full_name, population, sq_mile_water, sq_mile_land, region)
 VALUES
    {% for state in states -%}
       {{ state }}{% if loop.last %};{% else %},{% endif %}

@@ -10,6 +10,7 @@ Data sources:
    * List of presidents comes from Wikipedia, merged with a list of presidential borth and death dates found on the internet
    * State water and land areas come from Wikipedia's list of state's geographic features
    * List of books written by presidents comes from Wikipedia's list of presidential autobiographies
+   * State regions are from http://www.infoplease.com/ipa/A0770177.html
 
 ## Running the script
 
