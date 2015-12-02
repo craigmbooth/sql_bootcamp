@@ -117,3 +117,85 @@ INSERT INTO join2 VALUES
   (2, 'x'),
   (3, 'y'),
   (4, 'z');
+
+
+------------------------------------------------------
+-- Example tables for normalization demonstration
+------------------------------------------------------
+
+DROP TABLE IF EXISTS allergies_names_normalized;
+DROP TABLE IF EXISTS allergies_normalized;
+DROP TABLE IF EXISTS allergies_denormalized;
+
+CREATE TABLE allergies_denormalized (
+   child_name VARCHAR(50),
+   allergies VARCHAR(100)
+);
+
+CREATE TABLE allergies_names_normalized (
+   id INT NOT NULL AUTO_INCREMENT,
+   name VARCHAR(50),
+   PRIMARY KEY (id)
+);
+
+CREATE TABLE allergies_normalized (
+   id INT AUTO_INCREMENT,
+   allergy VARCHAR(50),
+   child_id INT,
+   PRIMARY KEY (id),
+   FOREIGN KEY(child_id) REFERENCES allergies_names_normalized(id)
+);
+
+INSERT INTO allergies_denormalized VALUES
+   ("Fred", "nuts, chocolate"),
+   ("Mary", "penicillin"),
+   ("Ed", "pollen, bee strings"),
+   ("Alice", "nuts"),
+   ("Bruce", NULL);
+
+
+INSERT INTO allergies_names_normalized (id, name) VALUES
+   (1, "Fred"),
+   (2, "Mary"),
+   (3, "Ed"),
+   (4, "Alice"),
+   (5, "Bruce");
+
+INSERT INTO allergies_normalized (child_id, allergy) VALUES
+   (1, "nuts"),
+   (1, "chocolate"),
+   (2, "penicillin"),
+   (3, "pollen"),
+   (3, "pollen"),
+   (4, "nuts"),
+   (5, "bee stings");
+
+------------------------------------------------------
+-- Example tables for self join demonstration
+------------------------------------------------------
+
+
+DROP TABLE IF EXISTS employees;
+
+CREATE TABLE employees (
+   id INT NOT NULL PRIMARY KEY,
+   name VARCHAR(255) NOT NULL,
+   title VARCHAR(255) NOT NULL,
+   reports_to INT,
+   FOREIGN KEY employees(reports_to) REFERENCES employees(id)
+);
+
+
+INSERT INTO employees VALUES
+   (1, "Amanda", "CEO", NULL),
+   (2, "Brian", "CTO", 1),
+   (3, "Jen", "COO", 1),
+   (4, "Alan", "CIO", 1),
+   (5, "Rachel", "VP Engineering", 2),
+   (6, "Peter", "VP Marketing", 3),
+   (7, "Zach", "VP Sales", 3),
+   (8, "Sandeep", "Sales Associate", 7),
+   (9, "Claire", "Inside Sales Associate", 7),
+   (10, "Ryan", "Software Developer", 2),
+   (11, "Abel", "Security Engineer", 4),
+   (12, "Mary", "Engineering Intern", 10);
