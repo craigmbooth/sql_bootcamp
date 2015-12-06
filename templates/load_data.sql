@@ -204,6 +204,14 @@ CREATE TABLE metals (
   name VARCHAR(50) NOT NULL
 );
 
+CREATE TABLE dangerous_elements (
+  atomic_number INT NOT NULL PRIMARY KEY
+)
+
+-- http://www.planetdeadly.com/nature/10-dangerous-chemical-elements
+INSERT INTO dangerous_elements VALUES
+  (24), (1), (82), (4), (9), (80), (33), (55), (84), (94);
+
 INSERT INTO metals (atomic_number, symbol, name) VALUES
    (3,"Li","Lithium"), (4,"Be","Beryllium"), (11,"Na","Sodium"),
    (12,"Mg","Magnesium"), (13,"Al","Aluminum"), (19,"K","Potassium"),
