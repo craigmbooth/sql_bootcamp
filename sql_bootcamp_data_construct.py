@@ -2,6 +2,8 @@
 SQL file that imports them into a MySQL database
 """
 import os
+import random
+import string
 
 import dateutil
 import jinja2
@@ -192,6 +194,25 @@ def dump_sql(states, presidents, books):
     return president_rows, state_rows, book_rows
 
 
+def dump_big_sql(nrows=512000):
+    """Script generates a bunch of random rows of data for demonstrating how
+    indexes help us query quickly.
+
+    :param nrows: The number of rows to generate
+    :type nrows: `int`
+
+    :returns: A list of SQL statements that are to be inserted in a table
+    :rtype: `list` of `str`
+    """
+    random_rows = []
+    for _ in range(nrows):
+        random_string = ''.join(random.choice(string.ascii_uppercase +
+                                              string.digits) for _ in range(32))
+        random_rows.append('INSERT INTO big_dataset VALUES ("{}", {});'.format(
+            random_string, random.randint(1, 100000)))
+    return random_rows
+
+
 def main():
     """Executed if you run the script from the command line"""
 
@@ -199,14 +220,21 @@ def main():
     presidents = get_presidents()
     books = get_books(presidents)
 
+    # Write the sql_bootcamp dataset
     president_rows, state_rows, book_rows = dump_sql(states, presidents, books)
-
     context = {'presidents': president_rows, 'states': state_rows,
                "books": book_rows}
-
     sql = render_template('load_data.sql', context)
     with open("load_data.sql", "w") as file_handle:
         file_handle.write(sql)
+
+    # Write the big, random dataet to demonstrate indexes
+    random_rows = dump_big_sql()
+    context = {'random_data': random_rows}
+    sql = render_template('big_dataset.sql', context)
+    with open("big_dataset.sql", "w") as file_handle:
+        file_handle.write(sql)
+
 
 if __name__ == "__main__":
     main()
