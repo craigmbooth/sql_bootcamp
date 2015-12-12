@@ -324,7 +324,7 @@ CREATE TABLE metals (
 
 CREATE TABLE dangerous_elements (
   atomic_number INT NOT NULL PRIMARY KEY
-)
+);
 
 -- http://www.planetdeadly.com/nature/10-dangerous-chemical-elements
 INSERT INTO dangerous_elements VALUES
@@ -367,3 +367,37 @@ INSERT INTO metals (atomic_number, symbol, name) VALUES
    (112,"Cn","Copernicium"), (113,"Uut","Ununtrium"),
    (114,"Fl","Flerovium"), (115,"Uup","Ununpentium"),
    (116,"Lv","Livermorium");
+
+
+------------------------------------------------------
+-- Example table for many-to-many join demo
+------------------------------------------------------
+
+CREATE TABLE buzzfeed_articles (
+  id INT,
+  title VARCHAR(100)
+);
+
+CREATE TABLE buzzfeed_authors (
+  id INT,
+  name VARCHAR(20)
+);
+
+CREATE TABLE buzzfeed_post_author (
+  author_id INT,
+  post_id INT
+);
+
+INSERT INTO buzzfeed_articles VALUES
+  (0, "22 Puppies That Love Reading"),
+  (1, "The 14 Most Useless Owls On Instagram"),
+  (2, "31 Photos Of Zombies Dressed As Kanye"),
+  (3, "24 Ways Mitt Romney Has Revolutionized Umbrellas."),
+  (4, "40 Awesome Cat Portraits of the 70's"),
+  (5, "Comic-Con's 49 Hottest Elephants");
+
+INSERT INTO buzzfeed_authors VALUES
+  (0, "Alice"), (1, "Brian"), (2, "Charles");
+
+INSERT INTO buzzfeed_post_author VALUES
+  (0, 0), (0, 2), (0, 3), (0, 6), (1, 0), (1, 1), (1, 2), (2, 3), (2, 4), (2, 5);

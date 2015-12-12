@@ -1,5 +1,8 @@
 big_dataset.sql
 
+# I usually call my virtual env v
+v/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
