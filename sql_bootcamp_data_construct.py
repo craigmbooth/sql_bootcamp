@@ -1,6 +1,7 @@
 """This code reads a few CSVs from `data/`, normalizes them, and writes out a
 SQL file that imports them into a MySQL database
 """
+import argparse
 import os
 import random
 import string
@@ -213,14 +214,35 @@ def dump_big_sql(nrows=512000):
     return random_rows
 
 
+def get_args():
+    """Get command line arguments
+
+    :return: The command line arguments
+    :rtype: :py:class:`argparse.ArgumentParser`
+    """
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--big', dest='big', action='store_true', help=
+                        "If set then generate the large dataset for the index"
+                        "example")
+    parser.add_argument('--no-big', dest='big', action='store_false', help=
+                        "If set then do not generate the large dataset for the"
+                        "index example")
+    #  ADD A VERBOSE FLAG
+    args = parser.parse_args()
+
+    return args
+
 def main():
     """Executed if you run the script from the command line"""
+    args = get_args()
 
     states = get_states()
     presidents = get_presidents()
     books = get_books(presidents)
 
     # Write the sql_bootcamp dataset
+    # ADD A PRINT IF VERBOSE
     president_rows, state_rows, book_rows = dump_sql(states, presidents, books)
     context = {'presidents': president_rows, 'states': state_rows,
                "books": book_rows}
@@ -229,11 +251,13 @@ def main():
         file_handle.write(sql)
 
     # Write the big, random dataet to demonstrate indexes
-    random_rows = dump_big_sql()
-    context = {'random_data': random_rows}
-    sql = render_template('big_dataset.sql', context)
-    with open("big_dataset.sql", "w") as file_handle:
-        file_handle.write(sql)
+    # ADD A PRINT IF VERBOSE
+    if args.big is True:
+        random_rows = dump_big_sql()
+        context = {'random_data': random_rows}
+        sql = render_template('big_dataset.sql', context)
+        with open("big_dataset.sql", "w") as file_handle:
+            file_handle.write(sql)
 
 
 if __name__ == "__main__":
