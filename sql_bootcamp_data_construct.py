@@ -223,12 +223,11 @@ def get_args():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--big', dest='big', action='store_true', help=
-                        "If set then generate the large dataset for the index"
+                        "If set then generate the large dataset for the index "
                         "example")
     parser.add_argument('--no-big', dest='big', action='store_false', help=
-                        "If set then do not generate the large dataset for the"
+                        "If set then do not generate the large dataset for the "
                         "index example")
-    #  ADD A VERBOSE FLAG
     args = parser.parse_args()
 
     return args
@@ -242,21 +241,23 @@ def main():
     books = get_books(presidents)
 
     # Write the sql_bootcamp dataset
-    # ADD A PRINT IF VERBOSE
+    template_file = "load_data.sql"
+    print("Rendering {}".format(template_file))
     president_rows, state_rows, book_rows = dump_sql(states, presidents, books)
     context = {'presidents': president_rows, 'states': state_rows,
                "books": book_rows}
-    sql = render_template('load_data.sql', context)
-    with open("load_data.sql", "w") as file_handle:
+    sql = render_template(template_file, context)
+    with open(template_file, "w") as file_handle:
         file_handle.write(sql)
 
     # Write the big, random dataet to demonstrate indexes
-    # ADD A PRINT IF VERBOSE
     if args.big is True:
+        template_file = "big_dataset.sql"
+        print("Rendering {}".format(template_file))
         random_rows = dump_big_sql()
         context = {'random_data': random_rows}
-        sql = render_template('big_dataset.sql', context)
-        with open("big_dataset.sql", "w") as file_handle:
+        sql = render_template(template_file, context)
+        with open(template_file, "w") as file_handle:
             file_handle.write(sql)
 
 
