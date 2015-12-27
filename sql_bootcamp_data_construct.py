@@ -70,6 +70,19 @@ def get_presidents():
     birth_death = pandas.read_csv("data/PresidentBirthDeath.csv")
     states = pandas.read_csv("data/StateDemographics.csv")
 
+    # The dates in PresidentsWikipedia are DD/MM/YYYY, flip them to MM/DD/YYYY
+    # because dateutil.parser will guess incorrectly when there is ambiguity
+    # here, e.g. 04/08/1900
+    for indx, row in presidents.iterrows():
+        if not(pandas.isnull(row["took_office"])):
+            tmp = row["took_office"].split("/")
+            tmp = "/".join([tmp[1], tmp[0], tmp[2]])
+            presidents.ix[indx, "took_office"] = tmp
+        if not(pandas.isnull(row["left_office"])):
+            tmp = row["left_office"].split("/")
+            tmp = "/".join([tmp[1], tmp[0], tmp[2]])
+            presidents.ix[indx, "left_office"] = tmp
+
     presidents = presidents.merge(states, left_on="home_state", right_on="state")
     presidents.drop(["wikipedia", "home_state", "state", "number"],
                     axis=1, inplace=True)
