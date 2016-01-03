@@ -261,11 +261,14 @@ CREATE TABLE allergies_normalized (
 );
 
 INSERT INTO allergies_denormalized VALUES
-   ("Fred", "nuts, chocolate"),
+   ("Fred", "nuts, chocolate, eggs"),
    ("Mary", "penicillin"),
-   ("Ed", "pollen, bee strings"),
-   ("Alice", "nuts"),
-   ("Bruce", NULL);
+   ("Ed", "pollen, eggs, bee strings"),
+   ("Alice", "nuts, shellfish, pet hair"),
+   ("Sanjeev", "shellfish, soy"),
+   ("Bruce", NULL),
+   ("Annette", "eggs"),
+   ("Jose", "soy");
 
 
 INSERT INTO allergies_names_normalized (id, name) VALUES
@@ -273,16 +276,27 @@ INSERT INTO allergies_names_normalized (id, name) VALUES
    (2, "Mary"),
    (3, "Ed"),
    (4, "Alice"),
-   (5, "Bruce");
+   (5, "Sanjeev"),
+   (6, "Bruce"),
+   (7, "Annette"),
+   (8, "Jose);
 
 INSERT INTO allergies_normalized (child_id, allergy) VALUES
    (1, "nuts"),
    (1, "chocolate"),
+   (1, "eggs),
    (2, "penicillin"),
    (3, "pollen"),
-   (3, "pollen"),
+   (3, "eggs"),
+   (3, "bee stings"),
    (4, "nuts"),
-   (5, "bee stings");
+   (4, "shellfish"),
+   (4, "pet hair"),
+   (5, "shellfish"),
+   (5, "soy"),
+   (7, "eggs"),
+   (8, "soy");
+
 
 ------------------------------------------------------
 -- Example tables for self join demonstration
