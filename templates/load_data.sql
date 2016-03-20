@@ -281,7 +281,9 @@ CREATE TABLE buzzfeed_authors (
 
 CREATE TABLE buzzfeed_post_author (
   author_id INT,
-  post_id INT
+  post_id INT,
+  FOREIGN KEY (author_id) REFERENCES buzzfeed_authors(id),
+  FOREIGN KEY (post_id) REFERENCES buzzfeed_articles(id)
 );
 
 INSERT INTO buzzfeed_articles VALUES
